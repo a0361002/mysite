@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="/static/new.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+			body { padding-top: 70px; font-family: "微軟正黑體",sans-serif}
+		</style>
+	</head>
+	<body>
+		<nav class="nav navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/example/">弘憶有情兒童佛學班</a>
+		</div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/main/">成績登記</a></li>
+			<li><a href="/final/">成績查詢</a></li>
+			<li><a href="/data/">成績排名</a></li>
+			<li><a href="#">課程資料</a></li>
+			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">其他資訊<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">First</a></li>
+					<li><a href="#">Second</a></li>
+					<li><a href="#">Third</a></li>
+				</ul>
+			</li>
+		</ul>
+		</nav>
+		<form action="/final/" method="get">{% csrf_token %}
+			<select style="width:80px;" name="st">
+				{% for k in data %}
+					<option value={{k.no}}>{{k.no}} {{k.name}}</option>
+				{% endfor %}
+			</select>
+			<input type="submit" value="送出">
+		</form>
+		<div id="prints" class="container" style="width:710px;margin:0 auto;">
+		<h3 style="padding-left:150px;">社團法人台北市弘情淨化有情慈善協會</h3>
+		<h3 style="padding-left:270px;">弘憶有情佛學班</h3>
+		<h4 align="left" style="padding-left:15px;">學生姓名: {{names}}</h4>
+		<table align="center" width="650" height="80" border="1" id="final">
+			<th>課程堂數</th>
+			<th>出席堂數</th>
+			<th>遲到</th>
+			<th>事假</th>
+			<th>病假</th>
+			<th>曠課</th>
+			<tr>
+				<td>{{classes}}</td>
+				<td>{{attends}}</td>
+				<td>{{lates}}</td>
+				<td>{{leaves}}</td>
+				<td>{{sicks}}</td>
+				<td>{{absents}}</td>
+			</tr>
+			<tr>
+				<td>請假事由</td>
+				<td colspan="5">
+					{% for k in leave %}
+						{{k.date}}-{{k.reason}}
+					{% endfor %}
+				</td>
+			</tr>
+		</table>
+		<br>
+		<table align="center" width="650" height="80" border="1" id="final">
+			<th width="161">課程內容</th>
+			<th width="80">成績</th>
+			<th>表現</th>
+			<th width="70">等第</th>
+			<tr>
+				<td>課程弟子規</td>
+				<td>{{score1}}</td>
+				<td id="t1"><input id="s1" type="text"><button onclick="test('s1','t1')">確認</button></td>
+				<td>{{ss_3.score1}}</td>
+			</tr>
+			<tr>
+				<td>弟子規考核</td>
+				<td>{{score2}}</td>
+				<td id="t2"><input id="s2" type="text"><button onclick="test('s2','t2')">確認</button></td>
+				<td>{{ss_3.score2}}</td>
+			</tr>
+			<tr>
+				<td>回家作業</td>
+				<td>{{score3}}</td>
+				<td id="t3"><input id="s3" type="text"><button onclick="test('s3','t3')">確認</button></td>
+				<td>{{ss_3.score3}}</td>
+			</tr>
+			<tr>
+				<td>上課加分</td>
+				<td>{{points}}</td>
+				<td id="t4"><input id="s4" type="text"><button onclick="test('s4','t4')">確認</button></td>
+				<td>{{ss_3.point}}</td>
+			</tr>
+			<tr>
+				<td>戶外教學</td>
+				<td>{{realscore4}}</td>
+				<td id="t5"><input id="s5" type="text"><button onclick="test('s5','t5')">確認</button></td>
+				<td>{{realss_4}}</td>
+			</tr>
+			<tr>
+				<td>總成績</td>
+				<td colspan="3">{{total}}</td>
+			</tr>
+			<tr>
+				<td>平均分數</td>
+				<td colspan="3">{{final_total}}</td>
+			</tr>
+		</table>
+		<br>
+		<table align="center" width="650" height="80" border="1" id="final">
+			<tr>
+				<td width="161">整體表現</td>
+				<td colspan="6" id="t6"><input id="s6" type="text"><button onclick="test('s6','t6')">確認</button></td>
+			</tr>
+			<tr>
+				<td>家長期許</td>
+				<td colspan="6"></td>
+			</tr>
+			<tr>
+				<td>家長簽名</td>
+				<td colspan="6"></td>
+			</tr>
+		</table>
+		</div>
+		<button onkeypress="previewScreen(prints)" onclick="previewScreen(prints)" style="text-decoration:none" target="_blank">友善列印</button>
+		<script src="/static/dist/js/jquery-3.1.1.min.js"></script>
+		<script src="/static/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function test(k1,k2){
+				var a = document.getElementById(k1);
+				var b = a.value;
+				var c = document.getElementById(k2);
+				c.innerHTML = b;
+			}
+			function previewScreen(block){
+				var value = block.innerHTML;
+				var printPage = window.open("","printPage","");
+				printPage.document.open();
+				printPage.document.write("<OBJECT classid='CLSID:8856F961-340A-11D0-A96B-00C04FD705A2' height=0 id=wc name=wc width=0>友善列印</OBJECT>");
+				printPage.document.write("<HTML><head><link href='/static/dist/css/bootstrap.min.css' rel='stylesheet'></head><BODY onload='javascript:window.print();window.close();'>");
+				printPage.document.write("<PRE>");
+				printPage.document.write(value);
+				printPage.document.write("</PRE>");
+				printPage.document.close("</BODY></HTML>");
+			}
+		</script>
+	</body>
+</html>

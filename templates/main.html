@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>弘憶有情兒童佛學班</title>
+		<link rel="stylesheet" href="/static/new.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+			body { padding-top: 70px; font-family: "微軟正黑體", sans-serif;}
+			@import url(http://fonts.googleapis.com/earlyaccess/cwtexkai.css);
+		</style>
+	</head>
+	<body>
+		<nav class="nav navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/example/">弘憶有情兒童佛學班</a>
+		</div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/main/">成績登記</a></li>
+			<li><a href="/final/">成績查詢</a></li>
+			<li><a href="/data/">成績排名</a></li>
+			<li><a href="#">課程資料</a></li>
+			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">其他資訊<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">First</a></li>
+					<li><a href="#">Second</a></li>
+					<li><a href="#">Third</a></li>
+				</ul>
+			</li>
+		</ul>
+		</nav>
+		<div class="container">
+		<form action="/here/" method="get">{% csrf_token %}
+			週次: <input type="number" name="week"><br>
+			日期: <input type="date" name="day" min="2000-01-02"><br>
+			<table border="1" width="1000" height="50" id="score">
+				<th>座號</th>
+				<th>姓名</th>
+				<th>弟子規</th>
+				<th>弟子規考核</th>
+				<th>回家作業</th>
+				<th>上課加分</th>
+				<th colspan="4">出席狀況</th>
+				<th>備註/請假事由</th>
+				{% for k in data %}
+					<tr>
+						<td align="center">{{k.no}}</td>
+						<td align="center">{{k.name}}</td>
+						<td width="15"><input name={{k.id1}} type="text" size="15" value="NULL"></td>
+						<td width="15"><input name={{k.id2}} type="text" size="15" value="NULL"></td>
+						<td width="15"><input name={{k.id3}} type="text" size="15" value="NULL"></td>
+						<td width="15"><input name={{k.id4}} type="text" size="15" value="NULL"></td>
+						<td colspan="4">
+							<input type="radio" name={{k.id5}} id="ok" value="attend" checked>
+							<label for="ok">到課</label>
+							<input type="radio" name={{k.id5}} id="late" value="late">
+							<label for="late">遲到</label>
+							<input type="radio" name={{k.id5}} id="break" value="leave">
+							<label for="break">請假</label>
+							<input type="radio" name={{k.id5}} id="sicks" value="sick">
+							<label for="sicks">病假</label>
+							<input type="radio" name={{k.id5}} id="fail" value="absent">
+							<label for="fail">曠課</label>
+						</td>
+						<td><textarea name={{k.id6}}></textarea></td>
+					</tr>
+				{% endfor %}
+			</table>
+			<input type="submit" value="送出" class="submits">
+		</form>
+		</div>
+	</body>
+</html>

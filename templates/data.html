@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="/static/new.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+			body { padding-top: 70px; font-family: "微軟正黑體",sans-serif}
+		</style>
+	</head>
+	<body>
+		<nav class="nav navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/example/">弘憶有情兒童佛學班</a>
+		</div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/main/">成績登記</a></li>
+			<li><a href="/final/">成績查詢</a></li>
+			<li><a href="/data/">成績排名</a></li>
+			<li><a href="#">課程資料</a></li>
+			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">其他資訊<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">First</a></li>
+					<li><a href="#">Second</a></li>
+					<li><a href="#">Third</a></li>
+				</ul>
+			</li>
+		</ul>
+		</nav>
+		<table align="center" border="1" width="1200" height="300" id="score">
+				<th>座號</th>
+				<th>姓名</th>
+				<th>弟子規</th>
+				<th>弟子規考核</th>
+				<th>回家作業</th>
+				<th>上課加分</th>
+				<th>總分</th>
+				{% for row in data %}
+					<tr>
+						<td>{{row.no}}</td>
+						<td>{{row.name}}</td>
+						<td>{{row.sum1}}</td>
+						<td>{{row.sum2}}</td>
+						<td>{{row.sum3}}</td>
+						<td>{{row.sum4}}</td>
+						<td>{{row.sum5}}</td>
+					</tr>
+				{% endfor %}
+		</table>
+		<script src="/static/dist/js/jquery-3.1.1.min.js"></script>
+		<script src="/static/dist/js/bootstrap.min.js"></script>
+	</body>
+</html>
